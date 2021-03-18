@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_auto_image_slider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
+
+    <LinearLayout
+        android:id="@+id/linear_edit_businessImg"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_linear_round"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/img_edit"
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/white" />
+
+    </LinearLayout>
+
+</RelativeLayout>

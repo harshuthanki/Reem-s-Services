@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linear_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/darkblue">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_backarrow" />
+
+            <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+                android:id="@+id/txt_servicenameofperson"
+                style="@style/white_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="@string/otp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+                android:id="@+id/txt_user_number"
+                style="@style/black_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_weight="0.8"
+                android:text="@string/sendingotpto" />
+
+            <com.reemsservices.helper.CustomTextviewMontserratRegular
+                android:id="@+id/txt_user_mobile"
+                style="@style/black_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_toRightOf="@id/txt_user_number"
+                android:text="@string/usermobilenumber" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="horizontal">
+
+            <com.reemsservices.helper.CustomEditTextMontserratRegular
+                android:id="@+id/edt_otp_digit1"
+                style="@style/black_14"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_otp_editdesign"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1" />
+
+            <com.reemsservices.helper.CustomEditTextMontserratRegular
+                android:id="@+id/edt_otp_digit2"
+                style="@style/black_14"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_otp_editdesign"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1" />
+
+            <com.reemsservices.helper.CustomEditTextMontserratRegular
+                android:id="@+id/edt_otp_digit3"
+                style="@style/black_14"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_otp_editdesign"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1" />
+
+            <com.reemsservices.helper.CustomEditTextMontserratRegular
+                android:id="@+id/edt_otp_digit4"
+                style="@style/black_14"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_otp_editdesign"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.reemsservices.helper.CustomTextviewMontserratRegular
+                style="@style/black_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_toLeftOf="@id/countdown_timer"
+                android:text="@string/receiveotp" />
+
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/countdown_timer"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                app:isHideTimeBackground="true"
+                app:isShowSecond="true"
+                app:isTimeTextBold="true"
+                app:suffixTextColor="#000000"
+                app:timeTextColor="#000000"
+                app:timeTextSize="@dimen/_12sdp" />
+
+
+        </LinearLayout>
+
+
+        <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+            android:id="@+id/txt_didnt_got_opt"
+            style="@style/black_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            android:text="@string/didntreceiveotp" />
+
+        <com.reemsservices.helper.CustomButtonMontserratSemiBold
+            android:id="@+id/btn_verify"
+            style="@style/white_14"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/custom_buttondarkblue"
+            android:text="@string/verify"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</LinearLayout>

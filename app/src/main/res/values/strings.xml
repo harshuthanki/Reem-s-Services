@@ -1,0 +1,165 @@
+<resources>
+    <string name="app_name">Reems Services</string>
+    <string name="india">+91</string>
+    <string name="welcome">Welcome</string>
+    <string name="welcomecontent">Our team will help you to achieve all of your home maintenance and outdoor problems with best professionals available in the market. </string>
+    <string name="signin">Sign In</string>
+    <string name="signup">Sign Up</string>
+    <string name="save">Save</string>
+    <string name="transaction">Transaction</string>
+    <string name="customercode">Enter payee unique code</string>
+    <string name="enterrefcode">Please enter reference code</string>
+    <string name="entercoin">Please enter coins</string>
+    <string name="coinscantbezero">Coins can\'t be 0 </string>
+    <string name="deductcoin">Enter amount of coins </string>
+    <string name="yes">Yes</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="loginsuccess">Login Successfully</string>
+    <string name="loginfail">Login Fail please try again!</string>
+    <string name="mobilenumber">Mobile number</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="businessname">Business Name</string>
+    <string name="selectbuscat">Select Business Category</string>
+    <string name="selectbusloc">Select Business Location</string>
+    <string name="selectsubbuscat">Select Business Sub Category</string>
+    <string name="businessaddress">Business Address</string>
+    <string name="confirmpassword">Confirm password</string>
+    <string name="rememberme">Remember Me</string>
+    <string name="acceptpolicy">I have read and accept the</string>
+    <string name="privacypolicy"><u>privacy and policy</u> </string>
+    <string name="tnc">I have read and accept the <u>privacy and policy</u> </string>
+    <string name="forgotpassword"><u>Forgot password?</u></string>
+    <string name="signinwithgoogle">SignIn with Google</string>
+    <string name="signinwithfaacebook">SignIn with Facebook</string>
+    <string name="customer">Customer</string>
+    <string name="partner">Partner</string>
+    <string name="signupas">Sign Up as</string>
+    <string name="home">Home</string>
+    <string name="booking">Booking</string>
+    <string name="wallet">Wallet</string>
+    <string name="addbusiness">Add Business</string>
+    <string name="profile">Profile</string>
+    <string name="otp">OTP</string>
+    <string name="email">Email Id </string>
+    <string name="locationaddress">"Om Shree Ram" B-129 Shastrinagar nana mauva main road Rajkot 360005</string>
+    <string name="populardeals">Popular Deals</string>
+    <string name="services">Services</string>
+    <string name="selectedservices">Selected services</string>
+    <string name="cleaning">Cleaning</string>
+    <string name="salonforwomen">Salon for Woman</string>
+    <string name="salonformen">Salon for men</string>
+    <string name="repairs">Repairs</string>
+    <string name="movingandpacking">Moving &amp; Packing</string>
+    <string name="itservices">IT Services</string>
+    <string name="typeofappointment">Type of Appointment</string>
+    <string name="time">Time:</string>
+    <string name="status">Status:</string>
+    <string name="cancle">Cancel</string>
+    <string name="addimages">Add Images</string>
+    <string name="experience">Experience:</string>
+    <string name="callnow">Call Now</string>
+    <string name="booknow">Book Now</string>
+    <string name="monday">Monday :</string>
+    <string name="tuesday">Tuesday :</string>
+    <string name="wednesday">Wednesday :</string>
+    <string name="thursday">Thursday :</string>
+    <string name="friday">Friday :</string>
+    <string name="saturday">Saturday :</string>
+    <string name="sunday">Sunday :</string>
+    <string name="edit">Edit</string>
+    <string name="rating">Rating</string>
+    <string name="nameofbusiness">Name Of Business</string>
+    <string name="notavailable">Not Available</string>
+    <string name="closed">Closed</string>
+    <string name="hours">Hours</string>
+    <string name="review">Review</string>
+    <string name="rupee"><b>₹</b></string>
+    <string name="note">Note</string>
+    <string name="dateformat">dd/mm/yy</string>
+    <string name="timeformat">00:00</string>
+    <string name="bookappointment">Book Appointment</string>
+    <string name="editprofile">Edit Profile</string>
+    <string name="date">Date:</string>
+    <string name="useruniquecode">User unique code</string>
+    <string name="entercode">Enter 6 digit code to claim coins</string>
+    <string name="claimnow">Claim Now</string>
+    <string name="usermobilenumber">User Mobile Number</string>
+    <string name="contactus">Contact us</string>
+    <string name="helpcenter">Help Center</string>
+    <string name="managebusiness">Manage Business</string>
+    <string name="wallethelp">Wallet Help</string>
+    <string name="generatecoins">Generate Coins</string>
+    <string name="selectbusiness">Select your business</string>
+    <string name="selectcoins">Select amount of coins</string>
+    <string name="generate">Generate</string>
+    <string name="aboutreemsservices">About Reems Services</string>
+    <string name="sharereemsservices">Share Reems Services</string>
+    <string name="ratereemsservices">Rate Reems Services</string>
+    <string name="logout">Logout</string>
+    <string name="didntreceiveotp"><u>Didn\'t received OTP yet?</u></string>
+    <string name="changenumber">Change Number</string>
+    <string name="sendingotpto">Sending OTP to: </string>
+    <string name="verify">Verify</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="open247">Open 24*7</string>
+    <string name="close">Closed</string>
+    <string name="setmanualtime">Set Time Manually</string>
+    <string name="addbusinessimg">Add Business Images</string>
+    <string name="servicename">Service Name</string>
+    <string name="serviceprice">Service Price</string>
+    <string name="add">Add</string>
+    <string name="addservice">Add Service</string>
+    <string name="setopeningtime">Opening Time</string>
+    <string name="setclosingtime">Closing Time</string>
+    <string name="receiveotp">You will receive OTP in: </string>
+    <string name="otperror">You did not entered OTP on time please try again </string>
+    <string name="instructtoclaimcoins">Instruction to use coins and claim coins.</string>
+    <string name="coinsyouspent">Coins you spent</string>
+    <string name="coinsyougenerated">Coins you Generated</string>
+    <string name="yourBooking">Your Booking</string>
+    <string name="businessBooking">Business Booking</string>
+    <string name="instructtoclaimcontent">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
+
+Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.
+
+Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.
+
+Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
+
+Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</string>
+    <string name="reviewcontent">\" simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy \"</string>
+    <string name="profile_albums">album</string>
+    <string name="gallery">Gallary</string>
+    <string name="profile_done">OK</string>
+    <string name="settiming">Set Timing</string>
+    <string name="deleteconfirm">Delete Confirmation</string>
+    <string name="deleteconfirmmsg">Are you sure you want to delete this service?</string>
+    <string name="deletebusinessconfirmmsg">Are you sure you want to delete this business?</string>
+    <string name="updatebusiness">Update Business</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirmupdatebusiness">Are you sure you want to update your business details ?</string>
+    <string name="coupon">Coupon:</string>
+    <string name="couponStatus">Status:</string>
+    <string name="delete">Delete</string>
+
+    <string-array name = "amount">
+        <item>"10"</item>
+        <item>"20"</item>
+        <item>"30"</item>
+        <item>"40"</item>
+        <item>"50"</item>
+        <item>"60"</item>
+        <item>"70"</item>
+        <item>"80"</item>
+        <item>"90"</item>
+        <item>"100"</item>
+
+    </string-array>
+
+</resources>
