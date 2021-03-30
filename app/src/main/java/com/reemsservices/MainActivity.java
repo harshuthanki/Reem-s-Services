@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.reemsservices.fragment.navigationtab.BookingFragment;
-import com.reemsservices.fragment.navigationtab.HomeFragment;
+import com.reemsservices.fragment.navigationtab.booking.BookingFragment;
+import com.reemsservices.fragment.navigationtab.home.HomeFragment;
 import com.reemsservices.fragment.navigationtab.profile.EditProfileFragment;
 import com.reemsservices.fragment.navigationtab.profile.ProfileFragment;
 import com.reemsservices.fragment.navigationtab.wallet.WalletFragment;
