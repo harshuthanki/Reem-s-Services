@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -66,6 +68,7 @@ public class BookNowFragment extends Fragment {
     Integer sum = 0;
     String time ,busId;
     List<String> list_serviceId;
+    private KProgressHUD kProgressHUD;
 
     public BookNowFragment(List<GetBusinessModel> list_service, String bus_id)
     {
@@ -262,6 +265,10 @@ public class BookNowFragment extends Fragment {
 
     public void callApi()
     {
+
+        kProgressHUD = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(5).setDimAmount(0.5f);
+        kProgressHUD.show();
+
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
@@ -270,7 +277,8 @@ public class BookNowFragment extends Fragment {
         params.put("bus_id", busId);
         if (list_service.size()>0)
         {
-            params.put("service_id",list_serviceId);
+            String serviceId = TextUtils.join(",", list_serviceId);
+            params.put("service_id",serviceId);
             params.put("total_amt",sum);
         }
         else
@@ -292,12 +300,14 @@ public class BookNowFragment extends Fragment {
         asyncHttpClient.post(AppConstant.BaseURL + "booking.php", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (kProgressHUD.isShowing()) kProgressHUD.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     boolean status = jsonObject.getBoolean("status");
                     if(status)
                     {
                         Toasty.success(getActivity(),jsonObject.optString("message"),5000).show();
+                        getFragmentManager().popBackStack();
                     }
                     else {
                         Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();
