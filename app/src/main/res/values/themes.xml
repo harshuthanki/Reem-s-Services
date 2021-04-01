@@ -101,6 +101,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="white_8">
+        <item name="android:textSize">@dimen/_8sdp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="white_6">
+        <item name="android:textSize">@dimen/_6sdp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     //gray
 
     <style name="gray_20">

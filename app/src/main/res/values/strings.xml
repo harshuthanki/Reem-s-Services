@@ -144,9 +144,15 @@ Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula 
     <string name="updatebusiness">Update Business</string>
     <string name="confirm">Confirm</string>
     <string name="confirmupdatebusiness">Are you sure you want to update your business details ?</string>
+    <string name="cancelBooking">Are you sure you want to cancel booking for </string>
     <string name="coupon">Coupon:</string>
     <string name="couponStatus">Status:</string>
     <string name="delete">Delete</string>
+    <string name="notifications">Notifications</string>
+    <string name="servicess">Services :</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
+    <string name="selectcity">Select City</string>
 
     <string-array name = "amount">
         <item>"10"</item>

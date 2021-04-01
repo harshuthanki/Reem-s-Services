@@ -13,8 +13,8 @@
         android:layout_height="@dimen/_100sdp"
         android:background="@color/darkblue">
 
-        <LinearLayout
-            android:id="@+id/linear_location"
+        <RelativeLayout
+            android:id="@+id/relative_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -24,28 +24,66 @@
             android:layout_centerHorizontal="true">
 
             <ImageView
+                android:id="@+id/img_location"
                 android:layout_width="@dimen/_15sdp"
                 android:layout_height="@dimen/_15sdp"
                 android:src="@drawable/ic_location"/>
 
             <com.reemsservices.helper.CustomTextviewMontserratSemiBold
                 android:id="@+id/txt_location"
-                android:layout_width="match_parent"
+                android:layout_toRightOf="@+id/img_location"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/white_12"
                 android:text="Rajkot"
                 android:singleLine="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                />
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp" />
 
-        </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/relative_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/img_notification"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
+                    android:src="@drawable/ic_notificationbell"/>
+
+                <LinearLayout
+                    android:id="@+id/linear_notificationRed"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:background="@drawable/custom_notifiction"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginBottom="@dimen/_5sdp">
+
+                    <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+                        android:id="@+id/txt_notificationNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        style="@style/white_6"
+                        android:gravity="center"
+                        android:layout_gravity="center"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/linear_location"
+            android:layout_below="@+id/relative_location"
             android:layout_marginTop="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_12sdp"

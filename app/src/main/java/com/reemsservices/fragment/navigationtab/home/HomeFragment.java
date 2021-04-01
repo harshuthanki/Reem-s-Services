@@ -1,11 +1,15 @@
-package com.reemsservices.fragment.navigationtab;
+package com.reemsservices.fragment.navigationtab.home;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +19,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -25,6 +33,7 @@ import com.reemsservices.R;
 import com.reemsservices.fragment.servicefragment.ServiceProviderListFragment;
 import com.reemsservices.helper.AppConstant;
 import com.reemsservices.helper.SecurePreferences;
+import com.reemsservices.model.CityModel;
 import com.reemsservices.model.ServicesModel;
 import com.reemsservices.model.SliderModel;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
@@ -41,6 +50,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 
 public class HomeFragment extends Fragment {
@@ -54,14 +64,19 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.txt_location)
     TextView txt_locationaddress;
 
+    @BindView(R.id.edt_search)
+    EditText edt_search;
+
     @BindView(R.id.picker)
     DiscreteScrollView picker;
 
+
     List<ServicesModel> servicelist;
     List<SliderModel> sliderlist;
+    List<CityModel> cityList;
 
     private KProgressHUD kProgressHUD;
-
+    String token;
 
     @Nullable
     @Override
@@ -70,13 +85,58 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this,view);
         servicelist = new ArrayList<>();
         sliderlist = new ArrayList<>();
-//        txt_locationaddress.setSelected(true);
+        if(SecurePreferences.getStringPreference(getActivity(),AppConstant.USERSELECTEDCITY).isEmpty()){
+            txt_locationaddress.setText("Select city from here");
+        }else {
+            txt_locationaddress.setText(SecurePreferences.getStringPreference(getActivity(),AppConstant.USERSELECTEDCITY));
+        }
+
 
         RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(getContext(),4);
         recycle_services.setLayoutManager(layoutManager1);
-        HomeApi();
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task)
+            {
+                if (!task.isSuccessful())
+                {
+                    return;
+                }
+                // Get new Instance ID token
+                token = task.getResult().getToken();
+                HomeApi();
+            }
+        });
+
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+
         return view;
     }
+    @OnClick(R.id.relative_location)
+    public void location(){
+        SelectCityFragment selectCityFragment = new SelectCityFragment(cityList);
+        selectCityFragment.show(getFragmentManager(),"SelectCityFragment");
+    }
+
     class PopularDealsAdapter extends RecyclerView.Adapter<PopularDealsAdapter.PopularDealsHolder> {
         @NonNull
         @Override
@@ -127,8 +187,7 @@ public class HomeFragment extends Fragment {
             holder.linear_service.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AppConstant.addFragment(getFragmentManager(), new ServiceProviderListFragment(servicesModel),"ServiceProviderListFragment");
-
+                    AppConstant.addFragment(getFragmentManager(), new ServiceProviderListFragment(servicesModel,cityList,servicesModel.getCatId()),"ServiceProviderListFragment");
                 }
             });
 
@@ -156,8 +215,13 @@ public class HomeFragment extends Fragment {
             }
         }
     }
+    @OnClick(R.id.relative_notification)
+    public void notification(){
+        AppConstant.addFragment(getFragmentManager(),new NotificationFragment(),"NotificationFragment");
+    }
 
-    public void HomeApi(){
+    public void HomeApi()
+    {
 
         kProgressHUD = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(5).setDimAmount(0.5f);
         kProgressHUD.show();
@@ -168,9 +232,12 @@ public class HomeFragment extends Fragment {
         RequestParams params = new RequestParams();
         if(SecurePreferences.getStringPreference(getActivity(),AppConstant.USERID).isEmpty()){
             params.put("user_id","0");
-        }else{
+        }
+        else
+        {
             params.put("user_id",user_id);
             params.put("user_unique_id",user_unique_id);
+            params.put("token",token);
         }
 
         asyncHttpClient.post(AppConstant.BaseURL + "home.php", params ,new AsyncHttpResponseHandler() {
@@ -183,10 +250,7 @@ public class HomeFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("popular_deals");
                     Gson gson = new Gson();
-
-                    Type type = new TypeToken<List<SliderModel>>() {
-                    }.getType();
-
+                    Type type = new TypeToken<List<SliderModel>>() {}.getType();
                     sliderlist = gson.fromJson(jsonArray.toString(), type);
 
                     if (sliderlist.size() > 0)
@@ -213,6 +277,12 @@ public class HomeFragment extends Fragment {
                         ServicesAdapter servicesAdapter = new ServicesAdapter();
                         recycle_services.setAdapter(servicesAdapter);
                     }
+
+                    jsonArray = jsonObject.getJSONArray("city");
+                    type = new TypeToken<List<CityModel>>() {
+                    }.getType();
+                    cityList = gson.fromJson(jsonArray.toString(), type);
+
 
                 } catch (JSONException e) {
                     if (kProgressHUD.isShowing()) kProgressHUD.dismiss();

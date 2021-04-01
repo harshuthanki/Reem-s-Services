@@ -29,8 +29,9 @@ public class AppConstant  {
     public static String USERCOIN="userCoin";
     public static String USERPROFILE="userProfile";
     public static String USERTYPE="userType";
-    public static String BaseURL="http://192.168.1.13/Reemsservices/api/";
-    public static String ImageURL="http://192.168.1.13/Reemsservices/images/";
+    public static String USERSELECTEDCITY="userSelectedCity";
+    public static String BaseURL="http://192.168.1.20/Reemsservices/api/";
+    public static String ImageURL="http://192.168.1.20/Reemsservices/images/";
 
 
 

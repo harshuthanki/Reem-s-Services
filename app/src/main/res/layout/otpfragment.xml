@@ -184,7 +184,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_12sdp"
             android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/custom_buttondarkblue"
+            android:background="@drawable/custom_button_square"
             android:text="@string/verify"
             android:textAllCaps="false" />
 

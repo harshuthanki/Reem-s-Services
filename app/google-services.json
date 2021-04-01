@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "782815915097",
+    "project_id": "reemsservices-f6889",
+    "storage_bucket": "reemsservices-f6889.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782815915097:android:cb2be2c9e9bdbdd0585548",
+        "android_client_info": {
+          "package_name": "com.reemsservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782815915097-v19qvckhftaeoubfg6k06460obodov4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMp2seFbE6FM24NKOI99opwSGHtqHVtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782815915097-v19qvckhftaeoubfg6k06460obodov4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.reemsservices.fragment.navigationtab;
+package com.reemsservices.fragment.navigationtab.booking;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +29,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.reemsservices.R;
+import com.reemsservices.fragment.navigationtab.wallet.GenerateCoinsFragment;
 import com.reemsservices.fragment.navigationtab.wallet.WalletFragment;
 import com.reemsservices.helper.AppConstant;
 import com.reemsservices.helper.SecurePreferences;
@@ -52,12 +54,16 @@ public class BookingFragment extends Fragment {
     @BindView(R.id.recycle_booking)
     RecyclerView recycle_booking;
 
+    @BindView(R.id.recycle_booking_p)
+    RecyclerView recycle_booking_p;
+
     @BindView(R.id.tablayout)
     TabLayout tablayout; 
 
     String partner = "p";
     List<ViewBookingModel> list_booking;
     BookingAdapter bookingAdapter;
+    BookingPartnerAdapter bookingPartnerAdapter;
 
 
     private KProgressHUD kProgressHUD;
@@ -90,12 +96,20 @@ public class BookingFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition()==0){
+                    recycle_booking_p.setVisibility(View.GONE);
                     bookingAdapter = new BookingAdapter();
+                    recycle_booking.setVisibility(View.VISIBLE);
                     recycle_booking.setAdapter(bookingAdapter);
                     bookingAdapter.notifyDataSetChanged();
+
                 }
                 else if(tab.getPosition()==1){
-                    Toast.makeText(getActivity(), "Tab 1", Toast.LENGTH_SHORT).show();
+                    recycle_booking.setVisibility(View.GONE);
+                    bookingPartnerAdapter = new BookingPartnerAdapter();
+                    recycle_booking_p.setVisibility(View.VISIBLE);
+                    recycle_booking_p.setAdapter(bookingPartnerAdapter);
+                    bookingPartnerAdapter.notifyDataSetChanged();
+
                 }
             }
 
@@ -112,6 +126,10 @@ public class BookingFragment extends Fragment {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
         recycle_booking.setLayoutManager(layoutManager);
+
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        recycle_booking_p.setLayoutManager(layoutManager1);
+
     }
     class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingHolder> {
         @NonNull
@@ -206,6 +224,80 @@ public class BookingFragment extends Fragment {
             }
         }
     }
+
+    class BookingPartnerAdapter extends RecyclerView.Adapter<BookingPartnerAdapter.BookingPartnerHolder> {
+        @NonNull
+        @Override
+        public BookingPartnerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_booking_p_recycle,parent,false);
+            BookingPartnerHolder bookingPartnerHolder = new BookingPartnerHolder(view);
+            return bookingPartnerHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull BookingPartnerHolder holder, int position) {
+            ViewBookingModel model = list_booking.get(position);
+            Glide.with(getActivity()).load(AppConstant.ImageURL + model.getCatImg()).into(holder.img_typebooking);
+            holder.txt_typeofbooking.setText(model.getBusName());
+            holder.txt_dateofbooking.setText(AppConstant.dateFormate(model.getBookingDateTime()));
+            holder.txt_timeofbooking.setText(AppConstant.timeFormate(model.getBookingDateTime()));
+
+            if(model.getStatus().equalsIgnoreCase("0"))
+            {
+                holder.card_service.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.card_service.setVisibility(View.GONE);
+            }
+
+            holder.card_service.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    List<ViewBookingModel> tempList = new ArrayList<>();
+                    for(int i = 0; i<list_booking.size() ; i++){
+                        if(model.getBookingId()== list_booking.get(i).getBookingId()){
+                            tempList.add(list_booking.get(i));
+                        }
+                    }
+
+                    BookingAcceptRejectFragment bookingAcceptRejectFragment = new BookingAcceptRejectFragment(tempList,model);
+                    bookingAcceptRejectFragment.show(getFragmentManager(), "BookingAcceptRejectFragment");
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list_booking.size();
+        }
+
+        class BookingPartnerHolder extends RecyclerView.ViewHolder {
+
+            @BindView(R.id.img_typebooking)
+            ImageView img_typebooking;
+
+            @BindView(R.id.txt_typeofbooking)
+            TextView txt_typeofbooking;
+
+            @BindView(R.id.txt_dateofbooking)
+            TextView txt_dateofbooking;
+
+            @BindView(R.id.txt_timeofbooking)
+            TextView txt_timeofbooking;
+
+            @BindView(R.id.card_service)
+            CardView card_service;
+
+            public BookingPartnerHolder(@NonNull View itemView) {
+                super(itemView);
+                ButterKnife.bind(this,itemView);
+            }
+        }
+    }
+
+
     public void callApi(){
         kProgressHUD = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(5).setDimAmount(0.5f);
         kProgressHUD.show();
@@ -230,6 +322,7 @@ public class BookingFragment extends Fragment {
                         bookingAdapter = new BookingAdapter();
                         recycle_booking.setAdapter(bookingAdapter);
                         bookingAdapter.notifyDataSetChanged();
+                        recycle_booking_p.setVisibility(View.GONE);
                     }
                     else {
                         Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();

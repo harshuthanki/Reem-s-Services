@@ -12,7 +12,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,4 +57,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.2.4'//gson
     implementation 'id.zelory:compressor:2.1.0'//file compress
     implementation 'com.kaopiz:kprogresshud:1.2.0'   //ios progress
+    implementation 'com.github.shamalka:Pretty-TimeAgo-android-library:1.0.0' // for showing descriptive time
+
+    implementation 'com.google.firebase:firebase-messaging:17.3.1'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
+apply plugin: 'com.google.gms.google-services'

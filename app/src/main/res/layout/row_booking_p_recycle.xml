@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/_5sdp"
@@ -30,12 +31,6 @@
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:src="@drawable/ic_salonman"/>
-
-                <!--            <View-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="0.3dp"-->
-                <!--                android:background="@color/gray"-->
-                <!--                android:rotation="90"/>-->
 
 
             </LinearLayout>
@@ -103,50 +98,8 @@
                         android:layout_marginEnd="@dimen/_5sdp"/>
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/_3sdp">
-
-                    <com.reemsservices.helper.CustomTextviewMontserratRegular
-                        android:id="@+id/txt_statusHeading"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/gray_10"
-                        android:text="@string/status"/>
-
-                    <com.reemsservices.helper.CustomTextviewMontserratRegular
-                        android:id="@+id/txt_status"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/black_10"
-                        android:text="Pending"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"/>
-
-                </LinearLayout>
-
-
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linear_btn_cancle"
-                android:layout_width="0dp"
-                android:layout_weight="0.4"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <com.reemsservices.helper.CustomTextviewMontserratSemiBold
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/white_10"
-                    android:text="@string/cancle"
-                    android:gravity="center"
-                    android:background="@drawable/custom_cancle_button"/>
-
-            </LinearLayout>
 
         </LinearLayout>
 

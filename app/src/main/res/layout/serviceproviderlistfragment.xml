@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,6 +9,7 @@
     android:background="@color/offwhite">
 
     <LinearLayout
+        android:id="@+id/linear_header"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/darkblue"
@@ -56,10 +57,49 @@
         android:visibility="gone">
     </com.google.android.material.tabs.TabLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/relative_noBusinessFound"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:src="@drawable/ic_no_data_found"/>
+
+        <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sorry!\nNo business\nfound\nin selected city"
+            style="@style/black_10"
+            android:textColor="@color/darkblue"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_95sdp"
+            android:layout_marginLeft="@dimen/_88sdp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_selectCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_noBusinessFound"
+        android:background="@drawable/custom_button_square"
+        android:layout_margin="@dimen/_10sdp"
+        android:text="@string/selectcity"
+        style="@style/white_12"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/linear_header"
         android:id="@+id/recycle_servicelist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
 
-</LinearLayout>
+</RelativeLayout>

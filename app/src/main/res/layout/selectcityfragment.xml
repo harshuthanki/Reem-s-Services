@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/black_12"
+            android:text="@string/selectcity"
+            />
+
+        <RelativeLayout
+            android:id="@+id/relative_spinner_city"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/round_border_gray"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinner_city"
+                style="@style/black_10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:paddingLeft="@dimen/_3sdp"
+                android:paddingRight="@dimen/_25sdp" />
+
+            <ImageView
+                android:id="@+id/img_spinner_dropdown"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_drop_down" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    style="@style/black_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:background="@drawable/custom_buttondarkblueborder"
+                    android:text="@string/cancle"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_40sdp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_save"
+                    style="@style/white_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:gravity="center"
+                    android:background="@drawable/custom_button_square"
+                    android:text="@string/save"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
