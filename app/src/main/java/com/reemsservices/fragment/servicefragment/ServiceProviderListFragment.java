@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,8 +25,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.reemsservices.R;
+import com.reemsservices.fragment.navigationtab.home.SelectCityFragment;
 import com.reemsservices.helper.AppConstant;
 import com.reemsservices.helper.SecurePreferences;
+import com.reemsservices.model.CityModel;
 import com.reemsservices.model.GetBusinessModel;
 import com.reemsservices.model.ServicesModel;
 import com.reemsservices.model.SliderModel;
@@ -58,10 +62,20 @@ public class ServiceProviderListFragment extends Fragment {
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
 
-    private KProgressHUD kProgressHUD;
+    @BindView(R.id.relative_noBusinessFound)
+    RelativeLayout relative_noBusinessFound;
 
-    public ServiceProviderListFragment(ServicesModel servicesModel) {
+    @BindView(R.id.btn_selectCity)
+    Button btn_selectCity;
+
+    List<CityModel> cityList;
+    private KProgressHUD kProgressHUD;
+    String catId;
+
+    public ServiceProviderListFragment(ServicesModel servicesModel, List<CityModel> cityList, String catId) {
         this.servicesModel = servicesModel;
+        this.cityList = cityList;
+        this.catId = catId;
     }
 
     @Nullable
@@ -71,9 +85,7 @@ public class ServiceProviderListFragment extends Fragment {
         View view = inflater.inflate(R.layout.serviceproviderlistfragment,container,false);
         ButterKnife.bind(this,view);
 
-
         txt_servicetitle.setText(servicesModel.getCatName());
-
         callServiceInfoApi();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -138,9 +150,15 @@ public class ServiceProviderListFragment extends Fragment {
 
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("user_id", SecurePreferences.getStringPreference(getActivity(), AppConstant.USERID));
+        if(SecurePreferences.getStringPreference(getActivity(), AppConstant.USERID).isEmpty()){
+            params.put("user_id","0");
+        }
+        else {
+            params.put("user_id", SecurePreferences.getStringPreference(getActivity(), AppConstant.USERID));
+        }
         params.put("user_unique_id", SecurePreferences.getStringPreference(getActivity(), AppConstant.USERUNIQUEID));
         params.put("cat_id", servicesModel.getCatId());
+        params.put("bus_loc", SecurePreferences.getStringPreference(getActivity(),AppConstant.USERSELECTEDCITY));
 
         asyncHttpClient.post(AppConstant.BaseURL + "getBusiness.php", params, new AsyncHttpResponseHandler() {
             @Override
@@ -158,6 +176,7 @@ public class ServiceProviderListFragment extends Fragment {
                             Gson gson = new Gson();
                             Type type = new TypeToken<List<GetBusinessModel>>() {}.getType();
                             list_subCat = gson.fromJson(jsonArray.toString(), type);
+
                             setList(0);
 
                             for(int i = 0 ; i<list_subCat.size(); i++){
@@ -188,8 +207,26 @@ public class ServiceProviderListFragment extends Fragment {
                             Type type = new TypeToken<List<GetBusinessModel>>() {}.getType();
                             list_business = gson.fromJson(jsonArray.toString(), type);
 
-                            ServiceProviderAdapter serviceProviderAdapter = new ServiceProviderAdapter();
-                            recycle_servicelist.setAdapter(serviceProviderAdapter);
+                            if(list_business.size()>0){
+                                relative_noBusinessFound.setVisibility(View.GONE);
+                                btn_selectCity.setVisibility(View.GONE);
+                                ServiceProviderAdapter serviceProviderAdapter = new ServiceProviderAdapter();
+                                recycle_servicelist.setAdapter(serviceProviderAdapter);
+                            }
+                            else {
+                                relative_noBusinessFound.setVisibility(View.VISIBLE);
+                                btn_selectCity.setVisibility(View.VISIBLE);
+                                btn_selectCity.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        SelectCityFragment selectCityFragment = new SelectCityFragment(cityList);
+                                        selectCityFragment.show(getFragmentManager(),"SelectCityFragment");
+
+                                    }
+                                });
+                            }
+
+
                         }
 
                     }
