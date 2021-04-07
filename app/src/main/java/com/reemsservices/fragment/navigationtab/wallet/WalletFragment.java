@@ -293,6 +293,7 @@ public class WalletFragment extends Fragment {
         RequestParams params = new RequestParams();
         params.put("user_id", user_id);
         params.put("user_unique_id", user_unique_id);
+        params.put("user_type",SecurePreferences.getStringPreference(getActivity(),AppConstant.USERTYPE));
 
         asyncHttpClient.post(AppConstant.BaseURL + "wallet.php", params, new AsyncHttpResponseHandler() {
             @Override
@@ -322,6 +323,9 @@ public class WalletFragment extends Fragment {
                         }.getType();
                         list_wallet = gson.fromJson(jsonArray.toString(), type);
 
+                    }
+                    else {
+                        Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();
                     }
                 } catch (JSONException e) {
                     if (kProgressHUD.isShowing()) kProgressHUD.dismiss();

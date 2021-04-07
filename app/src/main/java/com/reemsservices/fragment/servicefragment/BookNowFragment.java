@@ -145,18 +145,26 @@ public class BookNowFragment extends Fragment {
                 c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 c.set(Calendar.MINUTE, minute);
 
-                time = hourOfDay + ":" + minute;
+                int mint = String.valueOf(minute).length();
+                String mo = "0";
+                if (mint == 1) {
+                    mo = "0" + minute;
+                } else {
+                    mo = "" + minute;
+                }
+
+                time = hourOfDay + ":" + mo;
 
                 if (hourOfDay > 12)
                 {
-                    txt_time.setText((hourOfDay - 12) + ":" + minute + " PM");
+                    txt_time.setText((hourOfDay - 12) + ":" + mo + " PM");
                 } else if (hourOfDay == 12) {
-                    txt_time.setText("12" + ":" + minute + " PM");
+                    txt_time.setText("12" + ":" + mo + " PM");
                 } else if (hourOfDay < 12) {
                     if (hourOfDay != 0) {
-                        txt_time.setText(String.valueOf(hourOfDay) + ":" + minute + " AM");
+                        txt_time.setText(String.valueOf(hourOfDay) + ":" + mo + " AM");
                     } else {
-                        txt_time.setText("12" + ":" + minute + " AM");
+                        txt_time.setText("12" + ":" + mo + " AM");
                     }
                 }
             }
@@ -277,8 +285,20 @@ public class BookNowFragment extends Fragment {
         params.put("bus_id", busId);
         if (list_service.size()>0)
         {
-            String serviceId = TextUtils.join(",", list_serviceId);
-            params.put("service_id",serviceId);
+            String serviceID = "";
+
+            for(int i=0; i<list_serviceId.size(); i++){
+                GetBusinessModel model = list_service.get(i);
+                if(model.isSelected){
+                   if(serviceID == ""){
+                        serviceID = model.getServiceId();
+                    }
+                    else {
+                        serviceID = serviceID + "," + model.getServiceId();
+                    }
+                }
+            }
+            params.put("service_id",serviceID);
             params.put("total_amt",sum);
         }
         else

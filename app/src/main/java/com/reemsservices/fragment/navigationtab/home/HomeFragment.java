@@ -1,5 +1,6 @@
 package com.reemsservices.fragment.navigationtab.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,11 +30,14 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.reemsservices.LoginActivity;
 import com.reemsservices.R;
+import com.reemsservices.fragment.navigationtab.booking.BookingFragment;
 import com.reemsservices.fragment.servicefragment.ServiceProviderListFragment;
 import com.reemsservices.helper.AppConstant;
 import com.reemsservices.helper.SecurePreferences;
 import com.reemsservices.model.CityModel;
+import com.reemsservices.model.NotificationModel;
 import com.reemsservices.model.ServicesModel;
 import com.reemsservices.model.SliderModel;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
@@ -70,11 +74,15 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.picker)
     DiscreteScrollView picker;
 
+    @BindView(R.id.linear_notificationRed)
+    LinearLayout linear_notificationRed;
+
 
     List<ServicesModel> servicelist;
     List<SliderModel> sliderlist;
     List<CityModel> cityList;
-
+    List<NotificationModel> list_notify;
+    NotificationModel notificationModel;
     private KProgressHUD kProgressHUD;
     String token;
 
@@ -83,8 +91,14 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homefragment,container,false);
         ButterKnife.bind(this,view);
+        initView();
+        return view;
+    }
+    public void initView(){
         servicelist = new ArrayList<>();
         sliderlist = new ArrayList<>();
+        list_notify = new ArrayList<>();
+        notificationModel = new NotificationModel();
         if(SecurePreferences.getStringPreference(getActivity(),AppConstant.USERSELECTEDCITY).isEmpty()){
             txt_locationaddress.setText("Select city from here");
         }else {
@@ -126,10 +140,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-
-
-        return view;
     }
     @OnClick(R.id.relative_location)
     public void location(){
@@ -217,7 +227,12 @@ public class HomeFragment extends Fragment {
     }
     @OnClick(R.id.relative_notification)
     public void notification(){
-        AppConstant.addFragment(getFragmentManager(),new NotificationFragment(),"NotificationFragment");
+        if (SecurePreferences.getBooleanPreference(getActivity(), AppConstant.IS_LOGIN)) {
+            AppConstant.addFragment(getFragmentManager(),new NotificationFragment(list_notify),"NotificationFragment");
+        } else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void HomeApi()
@@ -263,6 +278,22 @@ public class HomeFragment extends Fragment {
                                 .setMinScale(0.8f)
                                 .build());
 
+                    }
+
+                    jsonArray = jsonObject.getJSONArray("notification");
+                    type = new TypeToken<List<NotificationModel>>() {}.getType();
+                    list_notify = gson.fromJson(jsonArray.toString(), type);
+
+                    for(int i = 0; list_notify.size()>i ; i++)
+                    {
+                        if(list_notify.get(i).getNotifyStatus().equals("1"))
+                        {
+                            linear_notificationRed.setVisibility(View.GONE);
+                        }
+                        else if(list_notify.get(i).getNotifyStatus().equals("0"))
+                        {
+                            linear_notificationRed.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     jsonArray = jsonObject.getJSONArray("services");

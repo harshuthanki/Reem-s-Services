@@ -148,6 +148,7 @@ Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula 
     <string name="coupon">Coupon:</string>
     <string name="couponStatus">Status:</string>
     <string name="delete">Delete</string>
+    <string name="clearnotifications">Clear Notifications</string>
     <string name="notifications">Notifications</string>
     <string name="servicess">Services :</string>
     <string name="reject">Reject</string>

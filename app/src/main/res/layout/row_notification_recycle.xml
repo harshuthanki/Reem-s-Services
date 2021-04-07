@@ -37,12 +37,23 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.reemsservices.helper.CustomTextviewMontserratSemiBold
-                    android:id="@+id/txt_typeofbooking"
-                    style="@style/black_12"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/typeofappointment" />
+                    android:orientation="horizontal">
+
+                    <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+                        android:id="@+id/txt_typeofbooking"
+                        style="@style/black_12"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/typeofappointment" />
+
+
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,20 +62,13 @@
                     android:orientation="horizontal">
 
                     <com.reemsservices.helper.CustomTextviewMontserratRegular
-                        android:id="@+id/txt_date"
+                        android:id="@+id/txt_description"
                         style="@style/gray_10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/date" />
+                        android:text="description"
+                        android:layout_marginTop="@dimen/_3sdp"/>
 
-                    <com.reemsservices.helper.CustomTextviewMontserratRegular
-                        android:id="@+id/txt_dateofbooking"
-                        style="@style/black_10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:text="8:00 AM" />
 
                 </LinearLayout>
 
@@ -72,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_3sdp"
+                    android:gravity="end"
                     android:orientation="horizontal">
 
                     <com.reemsservices.helper.CustomTextviewMontserratRegular
@@ -79,18 +84,12 @@
                         style="@style/gray_10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/time" />
+                        android:text="time"
+                        android:layout_marginTop="@dimen/_3sdp"/>
 
-                    <com.reemsservices.helper.CustomTextviewMontserratRegular
-                        android:id="@+id/txt_timeofbooking"
-                        style="@style/black_10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:text="8:00 AM" />
 
                 </LinearLayout>
+
 
             </LinearLayout>
         </LinearLayout>

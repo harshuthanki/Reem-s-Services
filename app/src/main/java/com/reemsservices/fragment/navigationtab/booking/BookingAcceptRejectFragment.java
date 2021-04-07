@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.reemsservices.MainActivity;
 import com.reemsservices.R;
+import com.reemsservices.fragment.servicefragment.ServiceProviderListFragment;
 import com.reemsservices.helper.AppConstant;
 import com.reemsservices.helper.SecurePreferences;
 import com.reemsservices.model.ViewBookingModel;
@@ -169,7 +171,11 @@ public class BookingAcceptRejectFragment  extends BottomSheetDialogFragment {
                     if(status){
                         Toasty.success(getActivity(),jsonObject.optString("message"),5000).show();
                         dismiss();
-                        ((MainActivity)getActivity()).linear_booking();
+                        Fragment fragment = getFragmentManager().findFragmentByTag("BookingFragment");
+                        if(fragment!=null){
+                            BookingFragment bookingFragment = (BookingFragment) fragment;
+                            bookingFragment.callApi();
+                        }
                     }else {
                         Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();
                     }

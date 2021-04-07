@@ -179,6 +179,7 @@ public class BookingFragment extends Fragment {
                         public void onClick(View view) {
                             cancelBooking(model.getBookingId());
                             dialog.dismiss();
+
                         }
                     });
                     btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -324,9 +325,9 @@ public class BookingFragment extends Fragment {
                         bookingAdapter.notifyDataSetChanged();
                         recycle_booking_p.setVisibility(View.GONE);
                     }
-                    else {
-                        Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();
-                    }
+//                    else {
+//                        Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();
+//                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -355,7 +356,8 @@ public class BookingFragment extends Fragment {
                     boolean status = jsonObject.getBoolean("status");
                     if(status){
                         Toasty.success(getActivity(),jsonObject.optString("message"),5000).show();
-                        initView();
+                        callApi();
+                        bookingAdapter.notifyDataSetChanged();
                     }
                     else {
                         Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();

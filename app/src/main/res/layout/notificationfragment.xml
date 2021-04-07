@@ -13,7 +13,7 @@
         android:background="@color/darkblue"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -27,15 +27,26 @@
 
             <com.reemsservices.helper.CustomTextviewMontserratSemiBold
                 android:id="@+id/txt_servicetitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/white_14"
                 android:text="@string/notifications"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toRightOf="@id/img_back"
                 />
 
-        </LinearLayout>
+            <com.reemsservices.helper.CustomTextviewMontserratRegular
+                android:id="@+id/txt_clearNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/white_12"
+                android:text="@string/clearnotifications"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

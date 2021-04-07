@@ -72,11 +72,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher).setStyle(new NotificationCompat.BigTextStyle());
+            notificationBuilder.setSmallIcon(R.drawable.logonoti).setStyle(new NotificationCompat.BigTextStyle());
         }
         else
         {
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+            notificationBuilder.setSmallIcon(R.drawable.logonoti);
         }
 
         NotificationManager notificationManager =

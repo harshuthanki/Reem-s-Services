@@ -15,7 +15,7 @@
 
         <RelativeLayout
             android:id="@+id/relative_location"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/_20sdp"
@@ -49,27 +49,19 @@
 
                 <ImageView
                     android:id="@+id/img_notification"
-                    android:layout_width="@dimen/_17sdp"
-                    android:layout_height="@dimen/_17sdp"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:src="@drawable/ic_notificationbell"/>
 
                 <LinearLayout
                     android:id="@+id/linear_notificationRed"
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_width="@dimen/_7sdp"
+                    android:layout_height="@dimen/_7sdp"
                     android:background="@drawable/custom_notifiction"
                     android:layout_marginLeft="@dimen/_7sdp"
-                    android:layout_marginBottom="@dimen/_5sdp">
-
-                    <com.reemsservices.helper.CustomTextviewMontserratSemiBold
-                        android:id="@+id/txt_notificationNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        style="@style/white_6"
-                        android:gravity="center"
-                        android:layout_gravity="center"/>
-
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                 </LinearLayout>
 
