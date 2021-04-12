@@ -174,7 +174,7 @@ public class BookingAcceptRejectFragment  extends BottomSheetDialogFragment {
                         Fragment fragment = getFragmentManager().findFragmentByTag("BookingFragment");
                         if(fragment!=null){
                             BookingFragment bookingFragment = (BookingFragment) fragment;
-                            bookingFragment.callApi();
+                            bookingFragment.initView(1);
                         }
                     }else {
                         Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();

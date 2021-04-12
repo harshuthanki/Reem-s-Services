@@ -58,58 +58,58 @@ public class BookingFragment extends Fragment {
     RecyclerView recycle_booking_p;
 
     @BindView(R.id.tablayout)
-    TabLayout tablayout; 
+    TabLayout tablayout;
 
     String partner = "p";
     List<ViewBookingModel> list_booking;
     BookingAdapter bookingAdapter;
     BookingPartnerAdapter bookingPartnerAdapter;
 
-
+    int current = 1;
     private KProgressHUD kProgressHUD;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bookingfragment,container,false);
-        ButterKnife.bind(this,view);
-        list_booking = new ArrayList<>();
-        callApi();
-        initView();
-
+        View view = inflater.inflate(R.layout.bookingfragment, container, false);
+        ButterKnife.bind(this, view);
+        initView(0);
         return view;
     }
-    public void initView(){
+
+    public void initView(int current)
+    {
+        this.current = current;
+        if(current!=0)
+        {
+            tablayout.removeAllTabs();
+        }
+        list_booking = new ArrayList<>();
         tablayout.addTab(tablayout.newTab().setText(getResources().getString(R.string.yourBooking)));
         tablayout.addTab(tablayout.newTab().setText(getResources().getString(R.string.businessBooking)));
 
-        if(SecurePreferences.getStringPreference(getActivity(), AppConstant.USERTYPE).equalsIgnoreCase(partner)){
+        if (SecurePreferences.getStringPreference(getActivity(), AppConstant.USERTYPE).equalsIgnoreCase(partner)) {
             tablayout.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             tablayout.setVisibility(View.GONE);
         }
-
         tablayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#112d4e"));
-
         tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition()==0){
+                if (tab.getPosition() == 0) {
                     recycle_booking_p.setVisibility(View.GONE);
                     bookingAdapter = new BookingAdapter();
                     recycle_booking.setVisibility(View.VISIBLE);
                     recycle_booking.setAdapter(bookingAdapter);
                     bookingAdapter.notifyDataSetChanged();
 
-                }
-                else if(tab.getPosition()==1){
+                } else if (tab.getPosition() == 1) {
                     recycle_booking.setVisibility(View.GONE);
                     bookingPartnerAdapter = new BookingPartnerAdapter();
                     recycle_booking_p.setVisibility(View.VISIBLE);
                     recycle_booking_p.setAdapter(bookingPartnerAdapter);
                     bookingPartnerAdapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -124,18 +124,20 @@ public class BookingFragment extends Fragment {
             }
         });
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recycle_booking.setLayoutManager(layoutManager);
 
-        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recycle_booking_p.setLayoutManager(layoutManager1);
 
+        callApi();
     }
+
     class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingHolder> {
         @NonNull
         @Override
         public BookingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_booking_recycle,parent,false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_booking_recycle, parent, false);
             BookingHolder bookingHolder = new BookingHolder(view);
             return bookingHolder;
         }
@@ -148,14 +150,14 @@ public class BookingFragment extends Fragment {
             holder.txt_dateofbooking.setText(AppConstant.dateFormate(model.getBookingDateTime()));
             holder.txt_timeofbooking.setText(AppConstant.timeFormate(model.getBookingDateTime()));
 
-            if(model.getStatus().equalsIgnoreCase("0")){
+            if (model.getStatus().equalsIgnoreCase("0")) {
                 holder.linear_btn_cancle.setVisibility(View.VISIBLE);
                 holder.txt_status.setText("Pending");
-            }else if(model.getStatus().equalsIgnoreCase("1")){
+            } else if (model.getStatus().equalsIgnoreCase("1")) {
                 holder.linear_btn_cancle.setVisibility(View.GONE);
                 holder.txt_status.setText("Booking Accepted");
                 holder.txt_status.setTextColor(getResources().getColor(R.color.green));
-            }else{
+            } else {
                 holder.linear_btn_cancle.setVisibility(View.GONE);
                 holder.txt_status.setText("Booking Rejected");
                 holder.txt_status.setTextColor(getResources().getColor(R.color.red));
@@ -170,7 +172,7 @@ public class BookingFragment extends Fragment {
                     dialog.setContentView(R.layout.custom_dialog_confirmation);
                     TextView txt_massage = dialog.findViewById(R.id.txt_massage);
 
-                    txt_massage.setText(getResources().getString(R.string.cancelBooking)+" " + model.getBusName() + "?");
+                    txt_massage.setText(getResources().getString(R.string.cancelBooking) + " " + model.getBusName() + "?");
                     Button btnCancel = dialog.findViewById(R.id.btnCancel);
                     Button btn_confirm = dialog.findViewById(R.id.btn_confirm);
 
@@ -221,7 +223,7 @@ public class BookingFragment extends Fragment {
 
             public BookingHolder(@NonNull View itemView) {
                 super(itemView);
-                ButterKnife.bind(this,itemView);
+                ButterKnife.bind(this, itemView);
             }
         }
     }
@@ -230,7 +232,7 @@ public class BookingFragment extends Fragment {
         @NonNull
         @Override
         public BookingPartnerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_booking_p_recycle,parent,false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_booking_p_recycle, parent, false);
             BookingPartnerHolder bookingPartnerHolder = new BookingPartnerHolder(view);
             return bookingPartnerHolder;
         }
@@ -243,12 +245,9 @@ public class BookingFragment extends Fragment {
             holder.txt_dateofbooking.setText(AppConstant.dateFormate(model.getBookingDateTime()));
             holder.txt_timeofbooking.setText(AppConstant.timeFormate(model.getBookingDateTime()));
 
-            if(model.getStatus().equalsIgnoreCase("0"))
-            {
+            if (model.getStatus().equalsIgnoreCase("0")) {
                 holder.card_service.setVisibility(View.VISIBLE);
-            }
-            else
-            {
+            } else {
                 holder.card_service.setVisibility(View.GONE);
             }
 
@@ -256,13 +255,12 @@ public class BookingFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     List<ViewBookingModel> tempList = new ArrayList<>();
-                    for(int i = 0; i<list_booking.size() ; i++){
-                        if(model.getBookingId()== list_booking.get(i).getBookingId()){
+                    for (int i = 0; i < list_booking.size(); i++) {
+                        if (model.getBookingId() == list_booking.get(i).getBookingId()) {
                             tempList.add(list_booking.get(i));
                         }
                     }
-
-                    BookingAcceptRejectFragment bookingAcceptRejectFragment = new BookingAcceptRejectFragment(tempList,model);
+                    BookingAcceptRejectFragment bookingAcceptRejectFragment = new BookingAcceptRejectFragment(tempList, model);
                     bookingAcceptRejectFragment.show(getFragmentManager(), "BookingAcceptRejectFragment");
                 }
             });
@@ -293,20 +291,19 @@ public class BookingFragment extends Fragment {
 
             public BookingPartnerHolder(@NonNull View itemView) {
                 super(itemView);
-                ButterKnife.bind(this,itemView);
+                ButterKnife.bind(this, itemView);
             }
         }
     }
 
-
-    public void callApi(){
+    public void callApi() {
         kProgressHUD = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(5).setDimAmount(0.5f);
         kProgressHUD.show();
 
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("user_id",SecurePreferences.getStringPreference(getContext(),AppConstant.USERID));
-        params.put("user_unique_id",SecurePreferences.getStringPreference(getContext(),AppConstant.USERUNIQUEID));
+        params.put("user_id", SecurePreferences.getStringPreference(getContext(), AppConstant.USERID));
+        params.put("user_unique_id", SecurePreferences.getStringPreference(getContext(), AppConstant.USERUNIQUEID));
 
         asyncHttpClient.post(AppConstant.BaseURL + "view_booking.php", params, new AsyncHttpResponseHandler() {
             @Override
@@ -315,20 +312,19 @@ public class BookingFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     boolean status = jsonObject.getBoolean("status");
-                    if(status){
+                    if (status) {
                         JSONArray jsonArray = jsonObject.getJSONArray("booking_c");
                         Gson gson = new Gson();
-                        Type type = new TypeToken<List<ViewBookingModel>>() {}.getType();
+                        Type type = new TypeToken<List<ViewBookingModel>>() {
+                        }.getType();
                         list_booking = gson.fromJson(jsonArray.toString(), type);
+
                         bookingAdapter = new BookingAdapter();
                         recycle_booking.setAdapter(bookingAdapter);
                         bookingAdapter.notifyDataSetChanged();
-                        recycle_booking_p.setVisibility(View.GONE);
-                    }
-//                    else {
-//                        Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();
-//                    }
 
+                        tablayout.selectTab(tablayout.getTabAt(current));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -340,13 +336,14 @@ public class BookingFragment extends Fragment {
             }
         });
     }
-    public void cancelBooking(String bookingId){
+
+    public void cancelBooking(String bookingId) {
 
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("user_id",SecurePreferences.getStringPreference(getContext(),AppConstant.USERID));
-        params.put("user_unique_id",SecurePreferences.getStringPreference(getContext(),AppConstant.USERUNIQUEID));
-        params.put("booking_id",bookingId);
+        params.put("user_id", SecurePreferences.getStringPreference(getContext(), AppConstant.USERID));
+        params.put("user_unique_id", SecurePreferences.getStringPreference(getContext(), AppConstant.USERUNIQUEID));
+        params.put("booking_id", bookingId);
 
         asyncHttpClient.post(AppConstant.BaseURL + "delete_booking.php", params, new AsyncHttpResponseHandler() {
             @Override
@@ -354,13 +351,12 @@ public class BookingFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     boolean status = jsonObject.getBoolean("status");
-                    if(status){
-                        Toasty.success(getActivity(),jsonObject.optString("message"),5000).show();
+                    if (status) {
+                        Toasty.success(getActivity(), jsonObject.optString("message"), 5000).show();
                         callApi();
                         bookingAdapter.notifyDataSetChanged();
-                    }
-                    else {
-                        Toasty.error(getActivity(),jsonObject.optString("message"),5000).show();
+                    } else {
+                        Toasty.error(getActivity(), jsonObject.optString("message"), 5000).show();
                     }
 
                 } catch (JSONException e) {

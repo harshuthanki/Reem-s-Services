@@ -72,6 +72,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/linear_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -90,11 +91,11 @@
                 app:tint="@color/black"
                 android:layout_gravity="center"/>
 
-            <com.reemsservices.helper.CustomEditTextMontserratRegular
-                android:id="@+id/edt_search"
+            <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+                android:id="@+id/txt_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search for services and packages"
+                android:hint="Search"
                 android:background="@null"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_5sdp"

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/darkblue"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/_12sdp">
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_backarrow"/>
+
+            <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+                android:id="@+id/txt_servicetitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/white_14"
+                android:text="@string/Search"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toRightOf="@id/img_back"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/relative_location"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:background="@drawable/custom_edittext"
+        >
+
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_search"
+            app:tint="@color/black"
+            android:layout_gravity="center"/>
+
+        <com.reemsservices.helper.CustomEditTextMontserratRegular
+            android:id="@+id/edt_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search"
+            android:background="@null"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            style="@style/black_12"
+            android:cursorVisible="false"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_searchContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_20sdp">
+
+        <com.reemsservices.helper.CustomTextviewMontserratSemiBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/black_12"
+            android:text="What you want to search?"
+            android:gravity="center"/>
+
+        <com.reemsservices.helper.CustomTextviewMontserratRegular
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/gray_10"
+            android:text="Search for business and services here"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"/>
+
+        <ImageView
+            android:id="@+id/img_searchContent"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_img_search" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"/>
+
+</LinearLayout>

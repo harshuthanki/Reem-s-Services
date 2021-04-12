@@ -68,8 +68,11 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.txt_location)
     TextView txt_locationaddress;
 
-    @BindView(R.id.edt_search)
-    EditText edt_search;
+    @BindView(R.id.txt_search)
+    TextView txt_search;
+
+    @BindView(R.id.linear_search)
+    LinearLayout linear_search;
 
     @BindView(R.id.picker)
     DiscreteScrollView picker;
@@ -89,32 +92,30 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.homefragment,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.homefragment, container, false);
+        ButterKnife.bind(this, view);
         initView();
         return view;
     }
-    public void initView(){
+
+    public void initView() {
         servicelist = new ArrayList<>();
         sliderlist = new ArrayList<>();
         list_notify = new ArrayList<>();
         notificationModel = new NotificationModel();
-        if(SecurePreferences.getStringPreference(getActivity(),AppConstant.USERSELECTEDCITY).isEmpty()){
+
+        if (SecurePreferences.getStringPreference(getActivity(), AppConstant.USERSELECTEDCITY).isEmpty()) {
             txt_locationaddress.setText("Select city from here");
-        }else {
-            txt_locationaddress.setText(SecurePreferences.getStringPreference(getActivity(),AppConstant.USERSELECTEDCITY));
+        } else {
+            txt_locationaddress.setText(SecurePreferences.getStringPreference(getActivity(), AppConstant.USERSELECTEDCITY));
         }
 
-
-        RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(getContext(),4);
+        RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(getContext(), 4);
         recycle_services.setLayoutManager(layoutManager1);
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>()
-        {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
-            public void onComplete(@NonNull Task<InstanceIdResult> task)
-            {
-                if (!task.isSuccessful())
-                {
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
                     return;
                 }
                 // Get new Instance ID token
@@ -122,43 +123,30 @@ public class HomeFragment extends Fragment {
                 HomeApi();
             }
         });
-
-        edt_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
     }
-    @OnClick(R.id.relative_location)
-    public void location(){
+
+    @OnClick(R.id.linear_search)
+    public void search() {
+        AppConstant.addFragment(getFragmentManager(), new SearchFragment(), "SearchFragment");
+    }
+
+    @OnClick(R.id.txt_location)
+    public void location() {
         SelectCityFragment selectCityFragment = new SelectCityFragment(cityList);
-        selectCityFragment.show(getFragmentManager(),"SelectCityFragment");
+        selectCityFragment.show(getFragmentManager(), "SelectCityFragment");
     }
 
     class PopularDealsAdapter extends RecyclerView.Adapter<PopularDealsAdapter.PopularDealsHolder> {
         @NonNull
         @Override
         public PopularDealsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_populardeals_recycle,parent,false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_populardeals_recycle, parent, false);
             PopularDealsHolder popularDealsHolder = new PopularDealsHolder(view);
             return popularDealsHolder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull PopularDealsHolder holder, int position)
-        {
+        public void onBindViewHolder(@NonNull PopularDealsHolder holder, int position) {
             SliderModel sliderModel = sliderlist.get(position);
             Glide.with(getContext()).load(AppConstant.ImageURL + sliderModel.getSliderPhoto()).into(holder.img_populardeals);
         }
@@ -175,15 +163,16 @@ public class HomeFragment extends Fragment {
 
             public PopularDealsHolder(@NonNull View itemView) {
                 super(itemView);
-                ButterKnife.bind(this,itemView);
+                ButterKnife.bind(this, itemView);
             }
         }
     }
+
     class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ServicesHolder> {
         @NonNull
         @Override
         public ServicesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_services_recycle,parent,false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_services_recycle, parent, false);
             ServicesHolder servicesHolder = new ServicesHolder(view);
             return servicesHolder;
         }
@@ -197,7 +186,7 @@ public class HomeFragment extends Fragment {
             holder.linear_service.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AppConstant.addFragment(getFragmentManager(), new ServiceProviderListFragment(servicesModel,cityList,servicesModel.getCatId()),"ServiceProviderListFragment");
+                    AppConstant.addFragment(getFragmentManager(), new ServiceProviderListFragment(servicesModel, cityList, servicesModel.getCatId()), "ServiceProviderListFragment");
                 }
             });
 
@@ -221,55 +210,52 @@ public class HomeFragment extends Fragment {
 
             public ServicesHolder(@NonNull View itemView) {
                 super(itemView);
-                ButterKnife.bind(this,itemView);
+                ButterKnife.bind(this, itemView);
             }
         }
     }
+
     @OnClick(R.id.relative_notification)
-    public void notification(){
+    public void notification() {
         if (SecurePreferences.getBooleanPreference(getActivity(), AppConstant.IS_LOGIN)) {
-            AppConstant.addFragment(getFragmentManager(),new NotificationFragment(list_notify),"NotificationFragment");
+            AppConstant.addFragment(getFragmentManager(), new NotificationFragment(list_notify), "NotificationFragment");
         } else {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
         }
     }
 
-    public void HomeApi()
-    {
+    public void HomeApi() {
 
         kProgressHUD = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(5).setDimAmount(0.5f);
         kProgressHUD.show();
 
-        String user_id = SecurePreferences.getStringPreference(getActivity(),AppConstant.USERID);
-        String user_unique_id = SecurePreferences.getStringPreference(getActivity(),AppConstant.USERUNIQUEID);
+        String user_id = SecurePreferences.getStringPreference(getActivity(), AppConstant.USERID);
+        String user_unique_id = SecurePreferences.getStringPreference(getActivity(), AppConstant.USERUNIQUEID);
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        if(SecurePreferences.getStringPreference(getActivity(),AppConstant.USERID).isEmpty()){
-            params.put("user_id","0");
-        }
-        else
-        {
-            params.put("user_id",user_id);
-            params.put("user_unique_id",user_unique_id);
-            params.put("token",token);
+        if (SecurePreferences.getStringPreference(getActivity(), AppConstant.USERID).isEmpty()) {
+            params.put("user_id", "0");
+        } else {
+            params.put("user_id", user_id);
+            params.put("user_unique_id", user_unique_id);
+            params.put("token", token);
         }
 
-        asyncHttpClient.post(AppConstant.BaseURL + "home.php", params ,new AsyncHttpResponseHandler() {
+        asyncHttpClient.post(AppConstant.BaseURL + "home.php", params, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
-            {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (kProgressHUD.isShowing()) kProgressHUD.dismiss();
                 String response = new String(responseBody);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("popular_deals");
                     Gson gson = new Gson();
-                    Type type = new TypeToken<List<SliderModel>>() {}.getType();
+                    Type type = new TypeToken<List<SliderModel>>() {
+                    }.getType();
                     sliderlist = gson.fromJson(jsonArray.toString(), type);
 
-                    if (sliderlist.size() > 0)
-                    {
+                    if (sliderlist.size() > 0) {
                         PopularDealsAdapter popularDealsAdapter = new PopularDealsAdapter();
 
                         InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(popularDealsAdapter);
@@ -277,34 +263,26 @@ public class HomeFragment extends Fragment {
                         picker.setItemTransformer(new ScaleTransformer.Builder()
                                 .setMinScale(0.8f)
                                 .build());
-
                     }
 
                     jsonArray = jsonObject.getJSONArray("notification");
-                    type = new TypeToken<List<NotificationModel>>() {}.getType();
+                    type = new TypeToken<List<NotificationModel>>() {
+                    }.getType();
                     list_notify = gson.fromJson(jsonArray.toString(), type);
 
-                    for(int i = 0; list_notify.size()>i ; i++)
-                    {
-                        if(list_notify.get(i).getNotifyStatus().equals("1"))
-                        {
+                    for (int i = 0; list_notify.size() > i; i++) {
+                        if (list_notify.get(i).getNotifyStatus().equals("1")) {
                             linear_notificationRed.setVisibility(View.GONE);
-                        }
-                        else if(list_notify.get(i).getNotifyStatus().equals("0"))
-                        {
+                        } else if (list_notify.get(i).getNotifyStatus().equals("0")) {
                             linear_notificationRed.setVisibility(View.VISIBLE);
                         }
                     }
 
                     jsonArray = jsonObject.getJSONArray("services");
-
-                    type = new TypeToken<List<ServicesModel>>() {
-                    }.getType();
-
+                    type = new TypeToken<List<ServicesModel>>() {}.getType();
                     servicelist = gson.fromJson(jsonArray.toString(), type);
 
-                    if (servicelist.size() > 0)
-                    {
+                    if (servicelist.size() > 0) {
                         ServicesAdapter servicesAdapter = new ServicesAdapter();
                         recycle_services.setAdapter(servicesAdapter);
                     }
@@ -314,12 +292,10 @@ public class HomeFragment extends Fragment {
                     }.getType();
                     cityList = gson.fromJson(jsonArray.toString(), type);
 
-
                 } catch (JSONException e) {
                     if (kProgressHUD.isShowing()) kProgressHUD.dismiss();
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 

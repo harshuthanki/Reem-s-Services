@@ -343,7 +343,7 @@ public class AddBusinessFragment extends Fragment {
         }else {
             params.put("cat_id",selectedCategory_id);
         }
-        params.put("bus_name",edt_business_name.getText().toString().trim());
+        params.put("bus_name",edt_business_name.getText().toString().trim().toUpperCase());
         params.put("bus_add",edt_business_address.getText().toString().trim());
         params.put("bus_mobile",edt_mobile_number.getText().toString().trim());
         params.put("bus_loc",list_city.get(spinner_city.getSelectedItemPosition()).city_name);

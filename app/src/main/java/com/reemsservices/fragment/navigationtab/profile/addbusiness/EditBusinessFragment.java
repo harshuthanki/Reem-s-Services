@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,7 @@ import com.nguyenhoanglam.imagepicker.model.Config;
 import com.nguyenhoanglam.imagepicker.model.Image;
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker;
 import com.reemsservices.R;
+import com.reemsservices.fragment.navigationtab.profile.ManageBusinessFragment;
 import com.reemsservices.helper.AppConstant;
 import com.reemsservices.helper.SecurePreferences;
 import com.reemsservices.model.AddServiceModel;
@@ -104,12 +106,16 @@ public class EditBusinessFragment extends Fragment {
     @BindView(R.id.img_pic)
     ImageView img_pic;
 
+    @BindView(R.id.linear_serviceHeading)
+    LinearLayout linear_serviceHeading;
+
     ViewBusinessModel viewBusinessModel;
     List<String> slider_list;
 
     List<String> days;
     List<String> times;
-    List<AddServiceModel> serviceList, tempList;
+    List<ViewBusinessModel> serviceList , tempList;
+    List<ViewBusinessModel> list_viewBusiness;
     File file, file1, file2;
     String code;
     RecycleHoursAdapter recycleHoursAdapter;
@@ -117,13 +123,14 @@ public class EditBusinessFragment extends Fragment {
     SliderAdapterExample sliderAdapterExample;
     List<CityModel> list_city;
 
-
     private KProgressHUD kProgressHUD;
 
-    public EditBusinessFragment(ViewBusinessModel viewBusinessModel, List<CityModel> list_city, List<AddServiceModel> list_service) {
+    public EditBusinessFragment(ViewBusinessModel viewBusinessModel, List<ViewBusinessModel> list_viewBusiness, List<CityModel> list_city) {
         this.viewBusinessModel = viewBusinessModel;
+        serviceList = new ArrayList<>();
+        serviceList.addAll(this.viewBusinessModel.getServices());
         this.list_city = list_city;
-        this.serviceList = list_service;
+        this.list_viewBusiness = list_viewBusiness;
     }
 
 
@@ -146,6 +153,7 @@ public class EditBusinessFragment extends Fragment {
         }
 
         tempList = new ArrayList<>();
+
         slider_list.add(viewBusinessModel.getBusImgOne());
         slider_list.add(viewBusinessModel.getBusImgTwo());
         slider_list.add(viewBusinessModel.getBusImgThree());
@@ -185,11 +193,14 @@ public class EditBusinessFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
         recycle_edit_services.setLayoutManager(layoutManager1);
 
+        linear_serviceHeading.setVisibility(View.VISIBLE);
         serviceAdapter = new serviceAdapter();
         recycle_edit_services.setAdapter(serviceAdapter);
 
         sliderAdapterExample = new SliderAdapterExample();
         imageSlider.setSliderAdapter(sliderAdapterExample);
+
+        recycle_edit_services.setNestedScrollingEnabled(false);
 
         return view;
     }
@@ -557,7 +568,6 @@ public class EditBusinessFragment extends Fragment {
                 } else {
                     if (!insertService(edt_service_name.getText().toString().trim(), edt_service_price.getText().toString().trim())) {
                         dialog.dismiss();
-                        serviceAdapter.notifyDataSetChanged();
                     }
                 }
 
@@ -575,24 +585,24 @@ public class EditBusinessFragment extends Fragment {
 
     boolean insertService(String name, String price) {
         boolean flag = false;
-        for (AddServiceModel model : serviceList) {
-            if (model.service_name.equalsIgnoreCase(name) && model.service_price.equalsIgnoreCase(price)) {
+        for (ViewBusinessModel model : viewBusinessModel.getServices()) {
+            if (model.getServiceName().equalsIgnoreCase(name)) {
                 flag = true;
             }
         }
 
         if (!flag) {
-            AddServiceModel addServiceModel = new AddServiceModel();
-            addServiceModel.service_name = name;
-            addServiceModel.service_price = price;
-            serviceList.add(addServiceModel);
-            tempList.add(addServiceModel);
+            ViewBusinessModel viewBusinessModel = new ViewBusinessModel();
+            viewBusinessModel.setServiceName(name);
+            viewBusinessModel.setServicePrice(price);
+            serviceList.add(viewBusinessModel);
+            tempList.add(viewBusinessModel);
+            serviceAdapter.notifyDataSetChanged();
         } else {
             Toasty.error(getActivity(), "Service Already Exist", 5000).show();
         }
 
         return flag;
-
 
     }
 
@@ -607,9 +617,10 @@ public class EditBusinessFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull serviceHolder holder, final int position) {
-            AddServiceModel addServiceModel = serviceList.get(position);
-            holder.txt_servicename.setText(addServiceModel.service_name);
-            holder.txt_servicePrice.setText(getResources().getString(R.string.rupee) + " " + addServiceModel.service_price);
+            ViewBusinessModel businessModel = serviceList.get(position);
+
+            holder.txt_servicename.setText(businessModel.getServiceName());
+            holder.txt_servicePrice.setText(getResources().getString(R.string.rupee) + " " + businessModel.getServicePrice());
 
             holder.img_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -634,7 +645,7 @@ public class EditBusinessFragment extends Fragment {
                     btn_yes.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            deleteApi(addServiceModel.service_name, addServiceModel.service_price);
+                            deleteApi(serviceList.get(0).getServiceName(), serviceList.get(0).getServicePrice());
                             dialog.dismiss();
                         }
                     });
@@ -698,10 +709,12 @@ public class EditBusinessFragment extends Fragment {
 
         try {
             for (int i = 0; i < tempList.size(); i++) {
-                JSONObject services = new JSONObject();
-                services.put("service_name", tempList.get(i).service_name);
-                services.put("service_price", tempList.get(i).service_price);
-                jsonArray.put(i, services);
+                if (tempList.get(i).getServiceId() == null) {
+                    JSONObject services = new JSONObject();
+                    services.put("service_name", tempList.get(i).getServiceName());
+                    services.put("service_price", tempList.get(i).getServicePrice());
+                    jsonArray.put(i, services);
+                }
             }
 
             jobject.put("services", jsonArray);
@@ -756,7 +769,13 @@ public class EditBusinessFragment extends Fragment {
                     boolean status = jsonObject.getBoolean("status");
                     if (status) {
                         getFragmentManager().popBackStack();
-                        Toasty.success(getActivity(), jsonObject.optString("message"), 5000).show();
+                        Fragment fragment = getFragmentManager().findFragmentByTag("ManageBusinessFragment");
+                        if(fragment != null){
+                            ManageBusinessFragment manageBusinessFragment = (ManageBusinessFragment) fragment ;
+                            manageBusinessFragment.ViewBusiness();
+                            Toasty.success(getActivity(), jsonObject.optString("message"), 5000).show();
+                        }
+
                     } else {
                         Toasty.error(getActivity(), jsonObject.optString("message"), 5000).show();
                     }
@@ -777,7 +796,7 @@ public class EditBusinessFragment extends Fragment {
         Dialog dialog = new Dialog(getActivity());
 //        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        if (dialog.getWindow() != null)
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.custom_dialog_confirmation);
 
@@ -816,9 +835,10 @@ public class EditBusinessFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     boolean status = jsonObject.getBoolean("status");
                     if (status) {
+
                         JSONArray jsonArray = jsonObject.getJSONArray("services");
                         Gson gson = new Gson();
-                        Type type = new TypeToken<List<AddServiceModel>>() {
+                        Type type = new TypeToken<List<ViewBusinessModel>>() {
                         }.getType();
                         serviceList = gson.fromJson(jsonArray.toString(), type);
                         serviceAdapter.notifyDataSetChanged();

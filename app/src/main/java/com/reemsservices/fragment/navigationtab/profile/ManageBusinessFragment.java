@@ -64,7 +64,7 @@ public class ManageBusinessFragment extends Fragment {
 
     List<ViewBusinessModel> list_viewBusiness;
     List<CityModel> list_city;
-    List<AddServiceModel> list_service;
+
     private KProgressHUD kProgressHUD;
     ViewBusinessModel viewBusinessModel;
 
@@ -75,11 +75,9 @@ public class ManageBusinessFragment extends Fragment {
         ButterKnife.bind(this, view);
         list_viewBusiness = new ArrayList();
         list_city = new ArrayList<>();
-        list_service = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recycle_manage_business.setLayoutManager(layoutManager);
         ViewBusiness();
-
         return view;
     }
 
@@ -102,7 +100,7 @@ public class ManageBusinessFragment extends Fragment {
             holder.linear_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AppConstant.addFragment(getFragmentManager(), new EditBusinessFragment(viewBusinessModel, list_city, list_service), "EditBusinessFragment");
+                    AppConstant.addFragment(getFragmentManager(), new EditBusinessFragment(viewBusinessModel,list_viewBusiness,list_city), "EditBusinessFragment");
                 }
             });
             holder.btn_delete.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +204,7 @@ public class ManageBusinessFragment extends Fragment {
                     if (status) {
                         JSONArray jsonArray = jsonObject.getJSONArray("business_view");
                         JSONArray jsonArray1 = jsonObject.getJSONArray("city");
+
                         Gson gson = new Gson();
                         Type type = new TypeToken<List<ViewBusinessModel>>() {
                         }.getType();
@@ -214,17 +213,14 @@ public class ManageBusinessFragment extends Fragment {
                         type = new TypeToken<List<CityModel>>() {
                         }.getType();
                         list_city = gson.fromJson(jsonArray1.toString(), type);
+
+
                         if (list_viewBusiness.size() > 0) {
                             BusinessListAdapter businessListAdapter = new BusinessListAdapter();
                             recycle_manage_business.setAdapter(businessListAdapter);
                         } else {
                             Toasty.error(getActivity(), "List empty", 5000).show();
                         }
-
-                        jsonArray = jsonObject.getJSONArray("services");
-                        type = new TypeToken<List<AddServiceModel>>() {
-                        }.getType();
-                        list_service = gson.fromJson(jsonArray.toString(), type);
 
                     }
                 } catch (JSONException e) {
