@@ -57,8 +57,8 @@ public class SearchModel {
     @SerializedName("service_id")
     @Expose
     private String serviceId;
-    @SerializedName("user_id")
 
+    @SerializedName("service_name")
     @Expose
     private String serviceName;
     @SerializedName("service_price")

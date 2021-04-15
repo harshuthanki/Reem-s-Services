@@ -124,7 +124,9 @@
     <string name="coinsyougenerated">Coins you Generated</string>
     <string name="yourBooking">Your Booking</string>
     <string name="businessBooking">Business Booking</string>
-    <string name="instructtoclaimcontent">content to claim coins
+    <string name="instructtoclaimcontent">1. Get code from business partner.
+        2. Enter the code.
+        3. Tap on claim now button.
     </string>
     <string name="reviewcontent">\" simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy \"</string>
     <string name="profile_albums">album</string>
